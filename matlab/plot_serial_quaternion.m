@@ -19,13 +19,13 @@ qz = single(0);
 qw = single(0);
 
 %Set up Plot
-plotTitle = 'Sensor quaternion Data Log';  % plot title
+plotTitle = 'Sensor quaternion data log';  % plot title
 xLabel = 'Elapsed Time (s)';    % x-axis label
 yLabel = 'Data';                % y-axis label
 plotGrid = 'on';                % 'off' to turn off grid
-min = -1.5;                     % set y-min
-max = 1.5;                      % set y-max
-scrollWidth = 100;               % display period in plot, plot entire data log if <= 0
+min = -1.0;                     % set y-min
+max = 1.0;                      % set y-max
+scrollWidth = 10;               % display period in plot, plot entire data log if <= 0
 delay = .01;                    % make sure sample faster than resolution
 
 time = 0;
