@@ -229,6 +229,8 @@ void setup() {
     Serial.println(F("Initializing I2C devices..."));
     mpu.initialize();
 
+    pinMode(INT_PIN, INPUT);
+
     // verify connection
     Serial.println(F("Testing device connections..."));
     Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
@@ -245,9 +247,17 @@ void setup() {
         mpu.setDMPEnabled(true);
 
         // enable Arduino interrupt detection
-        Serial.println(F("Enabling interrupt detection ..."));
-        attachInterrupt(INT_PIN, dmpDataReady, RISING);
-        mpuIntStatus = mpu.getIntStatus();
+        //Serial.println(F("Enabling interrupt detection ..."));
+        //digitalPinToInterrupt(INT_PIN)
+        //attachInterrupt(INT_PIN, dmpDataReady, RISING);
+        //mpuIntStatus = mpu.getIntStatus();
+
+        // enable Arduino interrupt detection
+        Serial.print(F("Enabling interrupt detection (Arduino external interrupt "));
+        Serial.print(digitalPinToInterrupt(INT_PIN));
+        Serial.println(F(")..."));
+        attachInterrupt(digitalPinToInterrupt(INT_PIN), dmpDataReady, RISING);
+        mpuIntStatus = mpu.getIntStatus();        
 
         // set our DMP Ready flag so the main loop() function knows it's okay to use it
         Serial.println(F("DMP ready! Waiting for first interrupt..."));
@@ -409,13 +419,13 @@ void loop() {
            //Serial.print(":");
            //Serial.println(ypr[0]*RADIANS_TO_DEGREES, 2);
     
-           //Serial.print(q.x, 2);
-           //Serial.print(":");
-           //Serial.print(q.y, 2);
-           //Serial.print(":");
-          // Serial.print(q.z, 2);
-           //Serial.print(":");
-           //Serial.println(q.w, 2);
+           Serial.print(q.x, 2);
+           Serial.print(":");
+           Serial.print(q.y, 2);
+           Serial.print(":");
+           Serial.print(q.z, 2);
+           Serial.print(":");
+           Serial.println(q.w, 2);
           
            binaryFloat hi;
 
@@ -423,7 +433,7 @@ void loop() {
            hi.floatingPoint[1] = q.y;
            hi.floatingPoint[2] = q.z;
            hi.floatingPoint[3] = q.w;
-           Serial.write(hi.binary,16);
+           //Serial.write(hi.binary,16);
            
             // blink LED to indicate activity
             //blinkState = !blinkState;
